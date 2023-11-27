@@ -1,16 +1,25 @@
 package com.example.challengerDev.Challenger.Dev.entities;
 
+import com.example.challengerDev.Challenger.Dev.utils.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-@Entity
-@Table(name = "phone")
 @Data
-public class Phone {
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class Phone extends BaseEntity {
 
     @NotBlank(message = "Número de telefone é obrigatório")
     @Pattern(regexp = "\\d{10,11}", message = "Número de telefone inválido")
@@ -21,6 +30,11 @@ public class Phone {
 
     // Tipo de telefone (residencial, comercial, celular)
     private PhoneType type;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "CLIENT_ID")
+    private Client client;
 
     public Phone(String number) {
         this.number = number;

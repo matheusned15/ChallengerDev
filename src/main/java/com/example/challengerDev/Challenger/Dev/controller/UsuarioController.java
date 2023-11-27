@@ -1,11 +1,11 @@
 package com.example.challengerDev.Challenger.Dev.controller;
 
 import com.example.challengerDev.Challenger.Dev.dto.Login;
+import com.example.challengerDev.Challenger.Dev.entities.Client;
 import com.example.challengerDev.Challenger.Dev.entities.Usuario;
 import com.example.challengerDev.Challenger.Dev.service.TokenService;
 import com.example.challengerDev.Challenger.Dev.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -35,7 +35,7 @@ public class UsuarioController {
         Authentication authentication =  this.authenticationManager
                 .authenticate(usernamePasswordAuthenticationToken);
 
-        var usuario = (Usuario) authentication.getPrincipal();
+        var usuario = (Client) authentication.getPrincipal();
 
         return tokenService.gerarToken(usuario);
     }

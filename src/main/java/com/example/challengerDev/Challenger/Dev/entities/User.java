@@ -1,73 +1,29 @@
 package com.example.challengerDev.Challenger.Dev.entities;
 
+import com.example.challengerDev.Challenger.Dev.utils.BaseEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.List;
+import javax.validation.constraints.NotBlank;
 
-@Entity
-@Table(name = "usuario")
 @Data
-public class User implements UserDetails {
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "USERS")
+@EqualsAndHashCode(callSuper = true)
+public class User extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    @NotBlank
+    private String login;
+
+    @NotBlank
     private String password;
-    private String username;
 
-    @NotNull(message = "O nome é obrigatório")
-    @Size(min = 3, max = 100, message = "O nome deve ter entre 3 e 100 caracteres")
-    @Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "O nome deve conter apenas letras, espaços e números")
-    private String nome;
-    private String name;
-
-    @NotNull(message = "O cpf é obrigatório")
-    private String cpf;
-    private Adress address;
-    private List<@Valid Phone> phone;
-    private List<Email> email;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+    @Column(name = "ROLE", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserRoles userRole;
 }
